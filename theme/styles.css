@@ -1,0 +1,159 @@
+/* ---------------------------------------
+DEEP COLOR -> rgb(40, 62, 74)
+LIGHT COLOR -> rgb(0, 132, 191)
+
+65 / LIGHT COLOR -> rgb(77, 198, 255)
+40 / LIGHT COLOR -> rgb(0, 139, 204)
+35 / DEEP COLOR -> rgb(62, 97, 116)
+30 / DEEP COLOR -> rgb(0, 105, 153)
+--------------------------------------- */
+
+/* IMPORT CSS ELEMENTS */
+@import url("button.css");
+@import url("icon.css");
+@import url("input.css");
+@import url("table.css");
+@import url("message.css");
+@import url("tab.css");
+
+/* LOAD AND SET FONTS */
+@font-face {
+	font-family: "Raleway";
+	font-weight: normal;
+	src: url("assets/fonts/raleway-medium.ttf");
+}
+@font-face {
+	font-family: "Raleway";
+	font-weight: bold;
+	src: url("assets/fonts/raleway-semibold.ttf");
+}
+html, body {
+	font-family: "Raleway";
+	font-size: 13px;
+}
+h1 {
+	margin: 0;
+}
+
+/* STYLES */
+body {
+	padding: 0;
+	margin: 0;
+	color: rgba(0, 0, 0, 0.75);
+	background-color: rgba(255, 255, 255, 1);
+	text-size-adjust: 100%;
+	width: 100%;
+}
+
+@media only screen and (max-width: 350px) {
+	body {
+		width: 325px;
+	}
+}
+* {
+	outline: none;
+}
+a {
+	color: rgb(87, 114, 227);
+	text-decoration: none;
+	font-weight: bold;
+}
+a:hover {
+	opacity: 0.85;
+	transition: opacity 0.5s ease;
+}
+
+/* CUSTOM STYLES */
+*::-webkit-scrollbar {
+	width: 5px;
+	height: 5px;
+	background-color: transparent;
+	border-radius: 0;
+}
+*::-webkit-scrollbar-thumb {
+	border-radius: 2.5px;
+	background: rgba(0, 0, 0, 0.1);
+}
+
+textarea[name="coverLetter"]:focus {
+	height: 20em;
+}
+textarea[name="coverLetter"] {
+	height: 7.5em;
+}
+
+.web {
+	display: flex;
+	flex-direction: column;
+}
+
+[data-name="all-answers"] textarea {
+	height: 3.75em;
+}
+[data-name="all-answers"] textarea:focus {
+	height: 15em;
+}
+*:disabled {
+	opacity: 0.35;
+}
+
+.bar {
+	border: 1px solid #ccc!important;
+    border-radius: 40px;
+}
+
+.progress {
+	color: #000!important;
+    background-color: #3f7853!important;
+    border-radius: 40px;
+}
+
+.blur {
+    /* -webkit-filter: blur(3px); */
+    -moz-filter: blur(3px);
+    -o-filter: blur(3px);
+    -ms-filter: blur(3px);
+    filter: blur(2px);
+    background-color: #fff;
+  }
+
+.align {
+	display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.autocomplete-items {
+	    /* position: absolute; */
+    /* border: 1px solid #d4d4d4; */
+    border-bottom: none;
+    border-top: none;
+    /* z-index: 99; */
+    /* top: 100%; */
+    /* left: 0; */
+    /* right: 0; */
+  }
+  
+  .autocomplete-items div {
+	padding: 10px;
+	cursor: pointer;
+	background-color: #fff; 
+	border-bottom: 1px solid #d4d4d4; 
+  }
+  
+  /*when hovering an item:*/
+  .autocomplete-items div:hover {
+	background-color: #e9e9e9; 
+  }
+  
+  /*when navigating through the items using the arrow keys:*/
+  .autocomplete-active {
+	background-color: DodgerBlue !important; 
+	color: #ffffff; 
+  }
+
+.upgrade {
+	color: white;
+	text-decoration: none;
+	font: bold;
+}
