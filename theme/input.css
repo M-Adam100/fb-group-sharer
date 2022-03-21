@@ -6,18 +6,18 @@ input, select, textarea {
 	padding: 7.5px 8.5px;
 	width: 100%;
 	box-sizing : border-box;
-	border: 1px solid #4c7857;
+	border: 1px solid #222423;
 	font-size: 12px;
 	border-radius: 0;
 	height: 30.5px;
-	background: rgb(239 245 238);
+	background: rgb(245, 245, 245);
 	color: rgba(0, 0, 0, 0.75);
 }
 select {
 	padding: 6.5px 7.5px;
 }
 input:focus, select:focus, textarea:focus {
-	border: 1px solid rgb(48, 104, 55);
+	border: 1px solid rgb(55, 59, 56);
 }
 textarea {
 	resize: none;

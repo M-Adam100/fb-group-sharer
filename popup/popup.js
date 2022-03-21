@@ -1,10 +1,5 @@
 //CONSTANTS
 
-const CONTACTS = {
-  Free_Trial: 10,
-  Personal: 100
-}
-
 const getElementById = (id) => document.getElementById(id)
 
 const showMessage = (primaryMessage, secondaryMessage, type) => {
@@ -18,6 +13,40 @@ const showMessage = (primaryMessage, secondaryMessage, type) => {
     messageNode.style.display = 'none'
   }, 2000);
 }
+
+document.querySelector('#leap').addEventListener('click', () => {
+  chrome.runtime.sendMessage({
+    message: 'POST'
+  })
+})
+
+chrome.storage.local.get(['lists', 'post'], CS => {
+  console.log(CS);
+});
+
+
+document.querySelector('#createList').addEventListener('click', async () => {
+  const { lists } = await chrome.storage.local.get(['lists']);
+  const listName = getElementById('add_list').value;
+  if (lists[listName]) {
+    alert("Kindly Enter a Unique List")
+  }
+  if (lists) {
+    chrome.storage.local.set({
+     lists: {
+       ...lists,
+       [listName]: []
+      }
+    });
+  } else {
+    chrome.storage.local.set({
+      lists: {
+        [listName]: []
+      }
+    })
+  }
+ 
+})
 
 const showSpecificMessage = (primaryMessage, secondaryMessage, type) => {
   const messageNode = getElementById('message_specific');
@@ -153,7 +182,7 @@ const setLocal = (localName, jsonData) => localStorage[localName] = JSON.stringi
 
 // MAIN
 const viewExtension = () => {
-  extensionVersion.innerHTML = `<a href="https://www.leap.green/contact" target= "_blank" style="font-size: 1.075em; color: white">Contact Support</a>`
+ 
 };
 
 chrome.tabs.query({
@@ -162,7 +191,6 @@ chrome.tabs.query({
 }, async (tabs) => {
   const url = tabs[0].url;
   if (url.includes('https://www.linkedin.com/in')) {
-    //getElementById('connections_div').style.display = 'flex';
     getElementById('numberOfContacts').value = 1;
     getElementById('numberOfContacts').setAttribute('disabled', true);
     getElementById('keywords').setAttribute('disabled', true);
@@ -176,56 +204,38 @@ chrome.tabs.query({
 
 })
 
-document.getElementById('form_specific').addEventListener('submit', (e) => {
-  e.preventDefault();
-  let data = getFormData('form');
-  if (!data.numberOfContacts_specific) {
-    showSpecificMessage("Invalid", "Number of contacts cannot be empty!", 400);
-  } else {
-  const numberOfContacts = getElementById('numberOfContacts_specific').value;
-  const contactsLeft = getLocal('contactsLeft');
-  if (contactsLeft < numberOfContacts) {
-    showSpecificMessage("Not Enough Contacts","Please Update Your Plan!");
-  } else if (!checkFormData(data)) {
-    showSpecificMessage("Invalid", "Kindly select at least one other field!");
-  } else if (!checkMinMax()) {
-    showSpecificMessage("Invalid", "Kindly recheck min/max values!");
-  } else {
-    getElementById('leap_specific').setAttribute('disabled', true);
-    chrome.tabs.query({
-      active: true,
-      lastFocusedWindow: true
-    }, async (tabs) => {
-      console.log(data);
-      const res = await fetch("https://leap-extension.herokuapp.com/saveData", {
-        "method": "POST",
-        "headers": {
-          "content-type": "application/json"
-        },
-        "body": JSON.stringify({
-          fullName: getLocal('username'),
-          company: getLocal('company'),
-          emailAddress: getLocal('emailAddress'),
-          numberOfContacts,
-          keywords: data.keywords_specific,
-          industry: data.industry,
-          geography: data.geography,
-          employeesMin: data.min_employee,
-          employeesMax: data.max_employee,
-          revenueMin: data.min_revenue,
-          revenueMax: data.max_revenue,
-          type: 'SPECIFIC',
-        })
-      })
-    const response = await res.json();
-    updateContact(response.contactsLeft);
-    });
-
-    showSpecificMessage("Successfully Leaped", "Check Your Email Shortly", 200)
-  }
-  }
+getElementById('savePost').addEventListener('click',() => {
+  console.log('CLICKED')
+  const postText = getElementById('postText').value;
+  chrome.storage.local.set({
+    post: postText
+  });
 })
 
+const setUI = () => {
+  chrome.storage.local.get(['post', 'lists'], CS => {
+    if (CS.post) {
+      getElementById('postText').value = CS.post;
+    }
+    if (CS.lists) {
+      Object.keys(CS.lists).forEach(item => {
+        const groupLists = getElementById('groupLists');
+        const listNames = getElementById('lists');
+        let option = document.createElement("option");
+        option.value = item;
+        option.text = item;
+        let option2 = document.createElement("option");
+        option2.value = item;
+        option2.text = item;
+        listNames.add(option);
+        groupLists.add(option2);
+
+      })
+    }
+  })
+}
+
+setUI();
 
 
 getElementById('connections').addEventListener('change', (e) => {
@@ -286,57 +296,6 @@ document.getElementById('leap').addEventListener('click', () => {
   }
 })
 
-const setIndustries = () => {
- 
-  const industryList = document.querySelector('#industry');
-  Industries.forEach(item => {
-    industryList.innerHTML += `<option value="${item}">${item}</option>`
-  })
-  autocomplete(industryList, Industries);
-}
-
-const setCountries = () => {
- 
-  const countryList = document.querySelector('#geography');
-  countries.forEach(item => {
-    countryList.innerHTML += `<option value="${item}">${item}</option>`
-  })
-  autocomplete(countryList, countries);
-}
-
-setIndustries();
-setCountries();
-
-document.getElementById('leap_frog').addEventListener('click', async() => {
-  const text = getElementById('leapInfo').value;
-  const contactsLeft = getLocal('contactsLeft');
-  const numberOfContacts = document.getElementById('numberOfContacts_Frog').value;
-  if (!numberOfContacts) showFrogMessage("Invalid", "Contacts cannot be empty", 400);
-  else if (!text) showFrogMessage("Invalid", "Text cannot be empty", 400);
-  else if (numberOfContacts > contactsLeft) showFrogMessage("Not Enough Contacts","Please Update Your Plan!", 400)
-  else {
-    getElementById('leap_frog').setAttribute('disabled', true);
-    const res = await fetch("http://localhost:3000/saveData", {
-      "method": "POST",
-      "headers": {
-        "content-type": "application/json"
-      },
-      "body": JSON.stringify({
-        fullName: getLocal('username'),
-        company: getLocal('company'),
-        emailAddress: getLocal('emailAddress'),
-        text: text,
-        numberOfContacts,
-        type: 'FROG'
-      })
-    })
-    const response = await res.json();
-    updateContact(response.contactsLeft);
-    showFrogMessage('Successfully Leaped', 'Check Email Shortly', 200);
-    
-  }
-  
-})
 
 
 // LICENSING
@@ -408,7 +367,7 @@ const checkLicense = async () => {
      
     // }
     viewExtension();
-    openTab('post');
+    openTab('home');
   }
 };
 checkLicense();
