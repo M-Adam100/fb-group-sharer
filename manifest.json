@@ -1,5 +1,5 @@
 {
-	"name": "FB Group Sharer",
+	"name": "FB Group Bulk Poster",
 	"version": "1.0.0",
 	"description": "",
 	"manifest_version": 3,
@@ -16,6 +16,8 @@
 	},
 	"permissions": [
         "tabs",
-		"storage"
-	]
+		"storage",
+		"scripting"
+	],
+	"host_permissions": ["https://m.facebook.com/*"]
 }

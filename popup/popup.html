@@ -32,12 +32,12 @@
             <span class="input-label-top">Select Group List</span>
             <select id="groupLists" class="input-label-top">Select Group</select>
             <span class="input-label-top">Delay</span>
-            <input id="delay" type="number" value="10"></input>
+            <input id="delay" type="number" value="3"></input>
             <div id="connections_div" style="display: none; flex-direction: row;">
               <input type="checkbox" id="connections" value="true">
               <label for="connections"> Connections</label><br>
             </div>
-            <button id="leap" style="margin-right: 0px;">Start</button>
+            <button id="start" style="margin-right: 0px;">Start</button>
             <br />
             <div id="message"
               style="display: none; flex-direction: column; padding: 7.5px 8.5px; font-size: 11px; font-weight: bolder; letter-spacing: 1px; margin-bottom: 10px; border: 1px solid rgba(0, 0, 0, 0.075); border-radius: 0; background: rgb(0 0 0 / 10%); text-align: center;">
@@ -54,10 +54,6 @@
           <button id="savePost" style="margin-right: 0px;">Save</button>
 
         <br />
-        <div id="message_specific"
-          style="display: none; flex-direction: column; padding: 7.5px 8.5px; font-size: 11px; font-weight: bolder; letter-spacing: 1px; margin-bottom: 10px; border: 1px solid rgba(0, 0, 0, 0.075); border-radius: 0; background: rgb(0 0 0 / 10%); text-align: center;">
-        </div>
-
 
       </div>
     </div>
@@ -67,7 +63,7 @@
           <div class="web" style="text-align: justify;">
 
             <div class="align">
-              <input id='groupName' style="
+              <input id='groupLink' style="
               margin: 5px;
           " classtype="text" placeholder="Enter Group Link"></input>
               <button id="save_group">Add to List</button>
@@ -92,28 +88,8 @@
       </div>
     </div>
     <div class="tab-content active" data-name="loadingAnimation" style="height: 325px">
-      <div class="sub-content active" data-name="" style="
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgb(255, 255, 255);
-          ">
-        <div style="text-align: center; margin: calc(50vh - 37.5px) 0 0 0">
-
-          <img style="
-              height: 90px;
-              width: 90px;
-          " src="../theme/assets/images/Leap-Loader.gif" />
-
-
-
-        </div>
-      </div>
     </div>
   </div>
-  <div id="licensingNode"></div>
   <!-- TAB CONTENTS -->
 
   <!-- JAVASCRIPTS -->
